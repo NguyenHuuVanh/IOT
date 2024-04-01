@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames/bind";
-import styles from "./weather.module.scss";
 import axios from "axios";
 import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
+import styles from "./weather.module.scss";
+
 import { dbRef } from "../../../firebase/config";
 import { child, get } from "firebase/database";
 import { apiLinks } from "../../../axios/Api";
@@ -13,8 +14,11 @@ const Weather = () => {
   const [dataTime, setDataTime] = useState("");
   const [dataValue, setDataValue] = useState([]);
   const [dataInfo, setDataInfo] = useState([]);
+  const [dataWeatherWeek, setDataWeatherWeek] = useState([]);
+  const dayWeek = ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"];
+  console.log("🚀 ~ Weather ~ dataWeatherWeek:", dataWeatherWeek);
 
-  console.log("🚀 ~ Weather ~ dataValue:", dataInfo && dataInfo.current);
+  console.log("🚀 ~ Weather ~ dataValue:", dataInfo && dataInfo);
   const getData = () => {
     axios
       .get(apiLinks.time())
@@ -55,6 +59,17 @@ const Weather = () => {
       });
   };
 
+  const getDataWeatherWeek = () => {
+    axios
+      .get(apiLinks.weatherOfWeek())
+      .then((res) => {
+        setDataWeatherWeek(res.data.forecast.forecastday);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const DisplayWeather = () => {
     if (dataValue.temp <= 25) {
       return "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-weather/draw1.webp";
@@ -67,23 +82,20 @@ const Weather = () => {
 
   const wind =
     dataInfo && dataInfo.current && Math.round(dataInfo.current.wind_kph);
+  const day =
+    dataInfo && dataInfo.location && dataInfo.location.localtime.split(" ");
 
   useEffect(() => {
     getData();
     getValue();
     getWeatherInfo();
+    getDataWeatherWeek();
   }, []);
   return (
     <div className={cx("container")}>
-      <header className={cx("header")}>
-        <div className={cx("title")}>
-          <h1 className={cx("text")}>
-            Biểu đồ theo dõi nhiệt độ - độ ẩm - cường độ ánh sáng
-          </h1>
-        </div>
-      </header>
-
-      <section
+    
+<div className={cx("wrapper")}>
+<section
         className={("vh-100", "container")}
         style={{ backgroundColor: "transparent" }}
       >
@@ -162,10 +174,6 @@ const Weather = () => {
                     </div>
                     <div>
                       <img src={DisplayWeather()} width="100px" />
-                      {/* <!-- <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-weather/ilu3.webp"
-                        width="100px"> trời nắng -->
-                        <!-- <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-weather/draw1.webp"
-              className="card-img" alt="weather" /> trời lạnh --> */}
                     </div>
                   </div>
                 </div>
@@ -174,8 +182,13 @@ const Weather = () => {
           </div>
         </div>
       </section>
+</div>
+     
 
-      <section className={cx("vh-100")} style={{ backgroundColor: "#cdc4f9" }}>
+      <section
+        className={cx("vh-100", "table-2")}
+        style={{ backgroundColor: "#cdc4f9" }}
+      >
         <h1 className={cx("title")}>Dự báo trong tuần</h1>
         <div className={cx("container", "py-5", "h-100")}>
           <div
@@ -210,7 +223,6 @@ const Weather = () => {
                         "border-dark",
                         "py-4"
                       )}
-                      // style="margin-top: -1.5rem; margin-bottom: -1.5rem;">
                       style={{ marginTop: "-1.5rem", marginBottom: "-1.5rem" }}
                     >
                       <div
@@ -220,9 +232,20 @@ const Weather = () => {
                           "mt-3"
                         )}
                       >
-                        <p className={cx("small")}>Toronto</p>
-                        <p className={cx("small")}>21.02.2021</p>
-                        <p className={cx("small")}>Rain map</p>
+                        <p className={cx("small")}>
+                          {" "}
+                          {dataInfo &&
+                            dataInfo.location &&
+                            dataInfo.location.name}
+                        </p>
+                        <p className={cx("small")}>{day && day[0]}</p>
+                        <p className={cx("small")}>
+                          {" "}
+                          {dataInfo &&
+                            dataInfo.current &&
+                            dataInfo.current.condition.text}
+                          map
+                        </p>
                       </div>
                       <div
                         className={cx(
@@ -237,12 +260,17 @@ const Weather = () => {
                           className={cx("fw-bold", "mb-0")}
                           style={{ fontSize: "7rem" }}
                         >
-                          -4°C
+                          {`${dataValue && dataValue.temp}°C`}
                         </p>
                         <div className={cx("text-start")}>
                           <p className={cx("small")}>10:00</p>
                           <p className={cx("h3", "mb-3")}>Sunday</p>
-                          <p className={cx("small", "mb-0")}>Cloudy</p>
+                          <p className={cx("small", "mb-0")}>
+                            {" "}
+                            {dataInfo &&
+                              dataInfo.current &&
+                              dataInfo.current.condition.text}
+                          </p>
                         </div>
                       </div>
                       <div
@@ -256,89 +284,35 @@ const Weather = () => {
                         <div className={cx("flex-column")}>
                           <i className={cx("fas", "fa-minus")}></i>
                         </div>
-                        <div
-                          className={cx("flex-column", "border")}
-                          //  style="border-radius: 10px; padding: .75rem">
-                          style={{ borderRadius: "10px", padding: ".75rem" }}
-                        >
-                          <p className={cx("small", "mb-1")}>Sun</p>
-                          <p className={cx("small", "mb-0")}>
-                            <strong>-4°C</strong>
-                          </p>
-                        </div>
-                        <div className={cx("flex-column")}>
-                          <p className={cx("small", "mb-1")}>Mon</p>
-                          <p className={cx("small", "mb-0")}>
-                            <strong>-4°C</strong>
-                          </p>
-                        </div>
-                        <div className={cx("flex-column")}>
-                          <p className={cx("small", "mb-1")}>Tue</p>
-                          <p className={cx("small", "mb-0")}>
-                            <strong>-4°C</strong>
-                          </p>
-                        </div>
-                        <div className={cx("flex-column")}>
-                          <p className={cx("small", "mb-1")}>Wed</p>
-                          <p className={cx("small", "mb-0")}>
-                            <strong>-4°C</strong>
-                          </p>
-                        </div>
-                        <div className={cx("flex-column")}>
-                          <p className={cx("small", "mb-1")}>Thu</p>
-                          <p className={cx("small", "mb-0")}>
-                            <strong>-4°C</strong>
-                          </p>
-                        </div>
-                        <div className={cx("flex-column")}>
-                          <p className={cx("small", "mb-1")}>Fri</p>
-                          <p className={cx("small", "mb-0")}>
-                            <strong>-4°C</strong>
-                          </p>
-                        </div>
-                        <div className={cx("flex-column")}>
-                          <p className={cx("small", "mb-1")}>Sat</p>
-                          <p className={cx("small", "mb-0")}>
-                            <strong>-4°C</strong>
-                          </p>
-                        </div>
-                        <div className={cx("flex-column")}>
-                          <i className={cx("fas", "fa-minus")}></i>
-                        </div>
+                        {dataWeatherWeek.map((day, index) => {
+                          console.log("🚀 ~ {dataWeatherWeek.map ~ day:", day);
+                          return (
+                            <div className={cx("flex-column", "active")}>
+                              <p className={cx("small", "mb-1")}>
+                                {dayWeek[index]}
+                              </p>
+                              <p className={cx("small", "mb-0")}>
+                                <i
+                                  className={cx("fas", "fa-sun", "fa-2x")}
+                                  style={{ color: "#ddd" }}
+                                ></i>
+                              </p>
+                              <strong>{Math.round(day.day.avgtemp_c)}°C</strong>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                     <div className={cx("col-md-3", "text-end")}>
                       <p className={cx("small", "mt-3", "mb-5", "pb-5")}>
                         For a month
                       </p>
-                      <p className={cx("pb-1")}>
-                        <span className={cx("pe-2")}>11:00</span>{" "}
-                        <strong>-4°</strong>
+                      {dataWeatherWeek.map((hour,index)=>{
+                        return <p className={cx("pb-1")}>
+                        <span className={cx("pe-2")}>{index}:00</span>{" "}
+                        <strong>{Math.round(hour.hour[index].temp_c)}°C</strong>
                       </p>
-                      <p className={cx("pb-1")}>
-                        <span className={cx("pe-2")}>12:00</span>{" "}
-                        <strong>-4°</strong>
-                      </p>
-                      <p className={cx("pb-1")}>
-                        <span className={cx("pe-2")}>13:00</span>{" "}
-                        <strong>-5°</strong>
-                      </p>
-                      <p className={cx("pb-1")}>
-                        <span className={cx("pe-2")}>14:00</span>{" "}
-                        <strong>-7°</strong>
-                      </p>
-                      <p className={cx("pb-1")}>
-                        <span className={cx("pe-2")}>15:00</span>{" "}
-                        <strong>-6°</strong>
-                      </p>
-                      <p className={cx("pb-1")}>
-                        <span className={cx("pe-2")}>16:00</span>{" "}
-                        <strong>-4°</strong>
-                      </p>
-                      <p>
-                        <span className={cx("pe-2")}>17:00</span>{" "}
-                        <strong>-3°</strong>
-                      </p>
+                      })}
                     </div>
                   </div>
                 </div>

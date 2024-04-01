@@ -27,4 +27,18 @@
             }
         }
     }
+
+    .table-2{
+        .title{
+            text-align: center;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+    }
+}
+
+.active{
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    padding: 1rem 2rem;
 }
