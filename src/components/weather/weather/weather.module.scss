@@ -5,10 +5,12 @@
     flex-direction: column;
     justify-content: center;
 
+
     .header {
         display: flex;
         align-items: center;
         justify-content: center;
+        margin-top: 24px;
 
         .title {
             text-align: center;
