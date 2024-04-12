@@ -1,45 +1,260 @@
-.container {
+body {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.wrapper {
   display: flex;
   flex-direction: column;
+  padding: 0;
+}
+
+.logo {
+  max-width: 100%;
+  height: auto;
+}
+
+.img {
+  width: 100%;
+  height: auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
   justify-content: center;
+  flex-direction: column;
+  margin-top: 24px;
+}
 
-  .wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+.images {
+  display: flex;
+  padding: 20px;
+  gap: 20px;
+  padding-top: 30px;
+  width: 100%;
+  object-fit: cover;
+}
 
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 24px;
+.background {
+  height: 200px;
+}
 
-      .title {
-        text-align: center;
-        font-size: 18px;
-        font-family: "Poppins", sans-serif;
-        text-transform: uppercase;
-        color: #fff;
+.background img {
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+}
 
-        .text {
-          font-weight: 600;
-          font-size: 36px;
-          color: #fff;
-          text-align: center;
-        }
-      }
-    }
+.banner {
+  width: 200px;
+  height: 200px;
+  animation: spin 20s linear infinite;
+}
 
-    .table-2 {
-      .title {
-        text-align: center;
-        margin-top: 20px;
-        font-weight: 600;
-      }
-    }
+img.banner {
+  width: 100%;
+  border-radius: 50%;
+}
+
+.text_header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  display: flex;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
+  color: green;
+  gap: 20px;
+}
+
+.text {
+  font-weight: bold;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+}
+
+.main_info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10%;
+  gap: 10px;
+}
+
+.card {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
+
+.card p {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.wrapper_chart {
+  width: 100%;
+  height: 100%;
+}
+
+.led {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.led_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.led .text {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.led input {
+  margin-left: 20px;
+}
+
+.led img {
+  width: 100px;
+  height: 100px;
+}
+
+.chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  background-color: #fff;
+}
+
+#myChart {
+  width: 100%;
+  height: 100%;
+}
+
+.circular-progress {
+  width: var(--progress-bar-width);
+  height: var(--progress-bar-height);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.1s linear;
+}
+.inner-circle {
+  position: absolute;
+  width: calc(var(--progress-bar-width) - 50px);
+  height: calc(var(--progress-bar-height) - 50px);
+  border-radius: 50%;
+  background-color: lightgrey;
+}
+
+.percentage {
+  position: relative;
+  font-size: var(--font-size);
+  color: #fff;
+  font-weight: 600;
+}
+
+input[type="checkbox"] {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+label {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 200px;
+  height: 100px;
+  background: grey;
+  display: block;
+  border-radius: 100px;
+  position: relative;
+}
+
+label:after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 90px;
+  height: 90px;
+  background: #fff;
+  border-radius: 90px;
+  transition: 0.3s;
+}
+
+input:checked + label {
+  background: #bada55;
+}
+
+input:checked + label:after {
+  left: calc(100% - 5px);
+  transform: translateX(-100%);
+}
+
+label:active:after {
+  width: 130px;
+}
+
+.led_img {
+  display: none;
+}
+
+input[type="checkbox"].active .led_img {
+  display: block;
+}
+
+@keyframes shake {
+  0% {
+    transform: rotate(-2deg);
+  }
+  25% {
+    transform: rotate(2deg);
+  }
+  50% {
+    transform: rotate(-2deg);
+  }
+  75% {
+    transform: rotate(2deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); /* Bắt đầu từ góc 0 độ */
+  }
+  100% {
+    transform: rotate(360deg); /* Quay một vòng đầy đủ, tương ứng với 360 độ */
   }
 }
 
