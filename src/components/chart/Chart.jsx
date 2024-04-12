@@ -8,8 +8,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
-import { faker } from '@faker-js/faker';
+import { Bar,Line } from 'react-chartjs-2';
 
 ChartJS.register(
   CategoryScale,
@@ -33,24 +32,28 @@ export const options = {
   },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
 export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-    {
-      label: 'Dataset 2',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    },
-  ],
+  type: "bar",
+  data: {
+    datasets: [
+      {
+        label: "Độ ẩm",
+        data: [10, 10, 30, 40, 50, 10, 20, 30, 20, 30, 40],
+        type: "bar",
+        order: 2,
+      },
+      {
+        label: "Nhiệt độ",
+        data: [10, 40, 10, 10, 20, 30, 90, 80, 20, 10, 11],
+        type: "line",
+        order: 1,
+      },
+    ],
+    labels: ["0H", "1H", "2H", "3H", "4H", "5H", "6H", "7H", "8H", "9H", "10H","11H","12H","13H","14H","15H","16H","17H","18H","19H","20H","21H","22H","23H"],
+  },
 };
 
-export const VerticalChart=()=> {
-  return <Bar options={options} data={data} />;
-}
+// export const VerticalChart=()=> {
+//   return <Bar options={options} data={data} />;
+// }

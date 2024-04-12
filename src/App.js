@@ -6,16 +6,8 @@ import Weather from "./components/weather/weather/Weather";
 function App() {
   return (
     <div className="App">
-        <header className="header">
-        <div className="title">
-          <h1 className="text">
-            Biểu đồ theo dõi nhiệt độ - độ ẩm - cường độ ánh sáng
-          </h1>
-        </div>
-      </header>
-      <Search/>
       <Weather />
-      <VerticalChart/>
+      {/* <VerticalChart/> */}
     </div>
   );
 }
