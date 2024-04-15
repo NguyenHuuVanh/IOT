@@ -4,22 +4,101 @@ import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
 import styles from "./weather.module.scss";
 
 import { dbRef } from "../../../firebase/config";
-import { child, get } from "firebase/database";
+import { child, get, push, ref } from "firebase/database";
 
 import UnetiImg from "../../../assets/img/uneti.jpg";
-// import Banner from "../../../assets/img/banner.jpg";
 import Logo from "../../../assets/img/logo.jpg";
+import { MultitypeChart } from "../../chart/Chart";
+
+import {
+  Chart as ChartJS,
+  LinearScale,
+  CategoryScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  Legend,
+  Tooltip,
+  LineController,
+  BarController,
+} from "chart.js";
+import { Chart } from "react-chartjs-2";
+
+ChartJS.register(
+  LinearScale,
+  CategoryScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  Legend,
+  Tooltip,
+  LineController,
+  BarController
+);
 
 const cx = classNames.bind(styles);
 
 const Weather = () => {
   const [dataValue, setDataValue] = useState([]);
+  console.log("🚀 ~ Weather ~ dataValue:", dataValue);
+  const [time, setTime] = useState(["19:26", "19:26", "19:26", "19:26"]);
+  console.log("🚀 ~ Weather ~ time:", time);
+
+  // const getTime = () => {
+  //   const x = new Date();
+  //   const hours = x.getHours();
+  //   const minutes = x.getMinutes();
+  //   const newArray = [...time, `${hours}:${minutes}`];
+  //   setTime(newArray);
+  // };
+
+  const labels = time;
+  console.log("🚀 ~ Weather ~ labels:", labels);
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        type: "line",
+        label: "Temprerature",
+        data: dataValue.map((data) => {
+          return data.t;
+        }),
+        borderColor: "rgb(255, 99, 132)",
+        borderWidth: 5,
+        fill: false,
+      },
+      {
+        type: "bar",
+        label: "Humidity",
+        data: dataValue.map((data) => {
+          return data.h;
+        }),
+        backgroundColor: "rgb(75, 192, 192)",
+        borderColor: "white",
+        borderWidth: 2,
+      },
+    ],
+  };
+
+  const MultitypeChart = () => {
+    return (
+      <Chart
+        type="bar"
+        data={data}
+        width={1000}
+        height={603}
+        options={{ maintainAspectRatio: false }}
+      />
+    );
+  };
   const getValue = () => {
     get(child(dbRef, "/"))
       .then((snapshot) => {
         if (snapshot.exists()) {
           console.log(snapshot.val());
-          setDataValue(snapshot.val());
+          const newData = [...[snapshot.val()], dataValue];
+          setDataValue(newData);
         } else {
           console.log("No data available");
         }
@@ -31,9 +110,10 @@ const Weather = () => {
 
   useEffect(() => {
     getValue();
-  }, [dataValue]);
+    // getTime();
+  }, []);
   return (
-    <div className={cx("container", "container-fluid")}>
+    <div className={cx("wrapper")}>
       <div className={cx("row")}>
         <div
           className={cx("wrapper", "container-fluid", "col-xs-6", "col-md-12")}
@@ -65,25 +145,11 @@ const Weather = () => {
                 <p id="temperature">{Math.round(dataValue.h)}%</p>
               </div>
             </div>
-            <div className={cx("row", "wrapper_chart")}>
-              <div className={cx("chart", "col-xs-4", "col-md-8")}>
-                <canvas id="myChart" width="100%"></canvas>
-              </div>
+            <div className={cx("chart")}>
+              <MultitypeChart />
             </div>
           </main>
-          <div className={cx("led")}>
-            <div className={cx("led_btn")}>
-              <p className={cx("text")}>Trạng thái led:</p>
-              <input type="checkbox" id="switch" />
-              <label id="switch" for="switch">
-                Toggle
-              </label>
-            </div>
-          </div>
         </div>
-      </div>
-      <div className={cx("chart")}>
-        <canvas id="myChart"></canvas>
       </div>
     </div>
   );

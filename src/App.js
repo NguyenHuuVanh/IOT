@@ -1,12 +1,13 @@
 import "./App.css";
-import { VerticalChart } from "./components/chart/Chart";
+import Chart, { MultitypeChart } from "./components/chart/Chart";
+import MixedChart, { VerticalChart } from "./components/chart/Chart";
 import Weather from "./components/weather/weather/Weather";
 
 function App() {
   return (
     <div className="App">
       <Weather />
-      <VerticalChart />
+      {/* <MultitypeChart /> */}
     </div>
   );
 }

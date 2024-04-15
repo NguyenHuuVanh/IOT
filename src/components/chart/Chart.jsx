@@ -1,59 +1,74 @@
-import React from 'react';
+import React from "react";
 import {
   Chart as ChartJS,
-  CategoryScale,
   LinearScale,
+  CategoryScale,
   BarElement,
-  Title,
-  Tooltip,
+  PointElement,
+  LineElement,
   Legend,
-} from 'chart.js';
-import { Bar,Line } from 'react-chartjs-2';
+  Tooltip,
+  LineController,
+  BarController,
+} from "chart.js";
+import { Chart } from "react-chartjs-2";
 
 ChartJS.register(
-  CategoryScale,
   LinearScale,
+  CategoryScale,
   BarElement,
-  Title,
+  PointElement,
+  LineElement,
+  Legend,
   Tooltip,
-  Legend
+  LineController,
+  BarController
 );
 
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top',
-    },
-    title: {
-      display: true,
-      text: 'Chart.js Bar Chart',
-    },
-  },
-};
-
+const labels = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "April",
+  "May",
+  "June",
+  "July",
+];
 
 export const data = {
-  type: "bar",
-  data: {
-    datasets: [
-      {
-        label: "Độ ẩm",
-        data: [10, 10, 30, 40, 50, 10, 20, 30, 20, 30, 40],
-        type: "bar",
-        order: 2,
-      },
-      {
-        label: "Nhiệt độ",
-        data: [10, 40, 10, 10, 20, 30, 90, 80, 20, 10, 11],
-        type: "line",
-        order: 1,
-      },
-    ],
-    labels: ["0H", "1H", "2H", "3H", "4H", "5H", "6H", "7H", "8H", "9H", "10H","11H","12H","13H","14H","15H","16H","17H","18H","19H","20H","21H","22H","23H"],
-  },
+  labels,
+  datasets: [
+    {
+      type: "line",
+      label: "Temprerature",
+      data: [0, 10, 20, 30, 40, 50],
+      borderColor: "rgb(255, 99, 132)",
+      borderWidth: 5,
+      fill: false,
+    },
+    {
+      type: "bar",
+      label: "Humidity",
+      data: [50, 60, 70, 80, 90, 100],
+      backgroundColor: "rgb(75, 192, 192)",
+      borderColor: "white",
+      borderWidth: 2,
+    },
+  ],
 };
 
-// export const VerticalChart=()=> {
-//   return <Bar options={options} data={data} />;
+// export function MultitypeChart() {
+//   return (
+//     <Chart
+//       type="bar"
+//       data={data}
+//       width={1000}
+//       height={603}
+//       options={{ maintainAspectRatio: false }}
+//     />
+//   );
 // }
