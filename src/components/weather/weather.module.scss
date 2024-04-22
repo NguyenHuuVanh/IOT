@@ -1,0 +1,133 @@
+.wrapper {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+
+  .logo {
+    max-width: 100%;
+    height: auto;
+
+    .img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 24px;
+
+    .title {
+      display: flex;
+      font-size: 18px;
+      font-weight: bold;
+      font-family: "Poppins", sans-serif;
+      text-transform: uppercase;
+      color: green;
+      gap: 20px;
+
+      .banner {
+        width: 200px;
+        height: 200px;
+        animation: spin 20s linear infinite;
+
+        img {
+          width: 100%;
+          border-radius: 50%;
+        }
+      }
+    }
+
+    .text_header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      .text {
+        font-weight: bold;
+      }
+    }
+  }
+
+  .main {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 12px;
+    gap: 70px;
+
+    .main_info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 30%;
+      width: auto;
+      gap: 10px;
+      margin-left: 57px;
+      margin-top: 30px;
+
+      .card {
+        background-color: #f0f0f0;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 300px;
+
+        p {
+          font-size: 24px;
+          font-weight: bold;
+          text-align: center;
+        }
+      }
+    }
+
+    .chart {
+      padding: 8px;
+      max-width: 70%;
+      width: auto;
+    }
+  }
+}
+
+.led {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.led_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.led .text {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.led input {
+  margin-left: 20px;
+}
+
+.led img {
+  width: 100px;
+  height: 100px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); /* Bắt đầu từ góc 0 độ */
+  }
+  100% {
+    transform: rotate(360deg); /* Quay một vòng đầy đủ, tương ứng với 360 độ */
+  }
+}
