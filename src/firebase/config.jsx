@@ -5,14 +5,14 @@ import { getDatabase, ref } from "firebase/database";
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCXucNeRTSLENJ4cRyjtNHmwiYy93KVpew",
-  authDomain: "test-9fdaf.firebaseapp.com",
-  databaseURL: "https://test-9fdaf-default-rtdb.firebaseio.com",
-  projectId: "test-9fdaf",
-  storageBucket: "test-9fdaf.appspot.com",
-  messagingSenderId: "2889081671",
-  appId: "1:2889081671:web:f4fd6c57d840157ae3a262",
-  measurementId: "G-BS2NVF0JY9"
+  apiKey: "AIzaSyBeTyHVR2cEGFZOWaToiNPjpDw9cEriiuM",
+  authDomain: "doaniot-c6a10.firebaseapp.com",
+  databaseURL: "https://doaniot-c6a10-default-rtdb.firebaseio.com",
+  projectId: "doaniot-c6a10",
+  storageBucket: "doaniot-c6a10.appspot.com",
+  messagingSenderId: "943597730394",
+  appId: "1:943597730394:web:10eb285a1359b4aad9b663",
+  measurementId: "G-HZ02DBNTVN"
 };
 
 const app = initializeApp(firebaseConfig);

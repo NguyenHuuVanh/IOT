@@ -23,6 +23,7 @@ import {
 } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import ParammeterValue from "./parameterValue";
+import Button from "../Button/ButtonLed";
 
 ChartJS.register(
   LinearScale,
