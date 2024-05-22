@@ -85,6 +85,15 @@
           text-align: center;
         }
       }
+
+      .button{
+        margin-top: 10px;
+        min-width: 180px;
+        display: grid;
+        grid-template-areas: "a b"
+                             "c d";
+        gap: 10px;
+      }
     }
 
     .chart {

@@ -23,7 +23,7 @@ import {
 } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import ParammeterValue from "./parameterValue";
-import Button from "../Button/ButtonLed";
+import e from "cors";
 
 ChartJS.register(
   LinearScale,
@@ -41,8 +41,6 @@ const cx = classNames.bind(styles);
 
 const Weather = () => {
   const [dataValue, setDataValue] = useState([]);
-  console.log("🚀 ~ Weather ~ dataValue:", dataValue)
-
 
   const labels =
     dataValue &&
@@ -54,9 +52,9 @@ const Weather = () => {
     labels,
     datasets: [
       {
-        type: "line",
+        type: "bar",
         label: "Temprerature",
-        data: dataValue && dataValue.map((temp) => temp.t),
+        data: dataValue && dataValue.map((temp) => temp.temperature),
         borderColor: "rgb(255, 99, 132)",
         borderWidth: 5,
         fill: false,
@@ -64,8 +62,16 @@ const Weather = () => {
       {
         type: "bar",
         label: "Humidity",
-        data: dataValue && dataValue.map((temp) => temp.h),
+        data: dataValue && dataValue.map((temp) => temp.humidity),
         backgroundColor: "rgb(75, 192, 192)",
+        borderColor: "white",
+        borderWidth: 2,
+      },
+      {
+        type: "bar",
+        label: "Gas",
+        data: dataValue && dataValue.map((temp) => temp.gasConcentration),
+        backgroundColor: "rgb(241, 196, 15)",
         borderColor: "white",
         borderWidth: 2,
       },
@@ -84,6 +90,8 @@ const Weather = () => {
     );
   };
 
+  
+
   const getTimeString = () => {
     const now = new Date();
     const hours = now.getHours();
@@ -91,10 +99,12 @@ const Weather = () => {
     const timeString = `${hours}:${minutes}`;
     return timeString;
   };
+  
 
   const getValue = () => {
-    get(child(dbRef, "/"))
+    get(child(dbRef, "/data"))
       .then((snapshot) => {
+        
         if (snapshot.exists()) {
           console.log(snapshot.val());
           const newData = { ...snapshot.val(), time: getTimeString() };
@@ -115,13 +125,12 @@ const Weather = () => {
       });
   };
 
-
   useEffect(() => {
+    console.log("🚀 ~ Weather ~ dataValue:", dataValue);
     const interval1 = setInterval(() => {
       getValue();
-    }, 1*1000*60);
+    }, 10000);
 
-   
     return () => {
       clearInterval(interval1);
     };
@@ -142,30 +151,14 @@ const Weather = () => {
               </div>
               <div className={cx("text_header")}>
                 <h1 className={cx("text")}>KHOA ĐIỆN TỬ & KĨ THUẬT MÁY TÍNH</h1>
-                <h2 className={cx("text")}>Phần mềm giám sát</h2>
+                <h2 className={cx("text")}>
+                  Phần mềm điều khiển nhà thông minh - Smart home
+                </h2>
               </div>
             </div>
           </header>
           <main className={cx("main")}>
-            {/* <div className={cx("main_info")}>
-              <div>
-                <div className={cx("card")}>
-                  <h2>Nhiệt độ</h2>
-                  <p id="humidity">
-                    {dataRealtime && Math.round(dataRealtime.t)}
-                    °C
-                  </p>
-                </div>
-              </div>
-              <div className={cx("card")}>
-                <h2>Độ ẩm</h2>
-                <p id="temperature">
-                  {" "}
-                  {dataRealtime && Math.round(dataRealtime.h)}%
-                </p>
-              </div>
-            </div> */}
-            <ParammeterValue/>
+            <ParammeterValue />
             <div className={cx("chart")}>
               <MultitypeChart />
             </div>

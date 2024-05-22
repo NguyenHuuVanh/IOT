@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Chart as ChartJS,
   LinearScale,
@@ -60,15 +59,3 @@ export const data = {
     },
   ],
 };
-
-// export function MultitypeChart() {
-//   return (
-//     <Chart
-//       type="bar"
-//       data={data}
-//       width={1000}
-//       height={603}
-//       options={{ maintainAspectRatio: false }}
-//     />
-//   );
-// }
