@@ -1,0 +1,348 @@
+.container-fluid {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+
+  .limiter {
+    width: 100%;
+    margin: 0 auto;
+
+    .container-table100 {
+      width: 100%;
+      min-height: 100vh;
+      background: #c850c0;
+      background: -webkit-linear-gradient(45deg, #4158d0, #c850c0);
+      background: -o-linear-gradient(45deg, #4158d0, #c850c0);
+      background: -moz-linear-gradient(45deg, #4158d0, #c850c0);
+      background: linear-gradient(45deg, #4158d0, #c850c0);
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-flow: row;
+      gap: 10px;
+      padding: 33px 30px;
+
+      .wrap-table100 {
+        width: 100%;
+        width: 1170px;
+        overflow-y: auto; // Thêm thanh cuộn dọc khi có nhiều dòng dữ liệu
+        background: white;
+        border-radius: 10px;
+
+        .table {
+          border-spacing: 1;
+          border-collapse: collapse;
+          background: white;
+          border-radius: 10px;
+          overflow: hidden;
+          width: 100%;
+          margin: 0 auto;
+          position: relative;
+          overflow-y: scroll;
+
+          thead tr {
+            height: 60px;
+          }
+
+          tbody tr {
+            height: 50px;
+          }
+
+          tbody tr:last-child {
+            border: 0;
+          }
+
+          td,
+          th {
+            text-align: left;
+          }
+
+          td.l,
+          th.l {
+            text-align: right;
+          }
+
+          td.c,
+          th.c {
+            text-align: center;
+          }
+
+          td.r,
+          th.r {
+            text-align: center;
+          }
+        }
+
+        thead {
+          z-index: 100;
+          background: #36304a;
+        }
+      }
+    }
+  }
+}
+
+.table100-head th {
+  font-size: 18px;
+  color: #fff;
+  line-height: 1.2;
+  font-weight: unset;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+.table tbody tr {
+  font-size: 15px;
+  color: #808080;
+  line-height: 1.2;
+  font-weight: unset;
+  z-index: 1;
+}
+
+tbody tr:hover {
+  color: #555555;
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
+.column1 {
+  width: 8%;
+  padding: 0 40px;
+}
+
+.column2 {
+  width: 12%;
+}
+
+.column3 {
+  width: 12%;
+}
+
+.column4 {
+  width: 12%;
+
+  text-align: right;
+}
+
+.column5 {
+  width: 8%;
+
+  text-align: right;
+}
+
+.column6 {
+  width: 8%;
+
+  text-align: right;
+  padding-right: 62px;
+}
+
+.column7 {
+  width: 8%;
+
+  text-align: right;
+}
+
+.column8 {
+  width: 12%;
+
+  text-align: right;
+}
+
+.column9 {
+  width: 12%;
+
+  text-align: right;
+}
+
+@media screen and (max-width: 992px) {
+  table {
+    display: block;
+  }
+  table > *,
+  table tr,
+  table td,
+  table th {
+    display: block;
+  }
+  table thead {
+    display: none;
+  }
+  table tbody tr {
+    height: auto;
+    padding: 37px 0;
+  }
+  table tbody tr td {
+    padding-left: 40% !important;
+    margin-bottom: 24px;
+  }
+  table tbody tr td:last-child {
+    margin-bottom: 0;
+  }
+  table tbody tr td:before {
+    font-size: 14px;
+    color: #999999;
+    line-height: 1.2;
+    font-weight: unset;
+    position: absolute;
+    width: 40%;
+    left: 30px;
+    top: 0;
+  }
+  table tbody tr td:nth-child(1):before {
+    content: "Date";
+  }
+  table tbody tr td:nth-child(2):before {
+    content: "Order ID";
+  }
+  table tbody tr td:nth-child(3):before {
+    content: "Name";
+  }
+  table tbody tr td:nth-child(4):before {
+    content: "Price";
+  }
+  table tbody tr td:nth-child(5):before {
+    content: "Quantity";
+  }
+  table tbody tr td:nth-child(6):before {
+    content: "Total";
+  }
+
+  .column4,
+  .column5,
+  .column6 {
+    text-align: left;
+  }
+
+  .column4,
+  .column5,
+  .column6,
+  .column1,
+  .column2,
+  .column3 {
+    width: 100%;
+  }
+
+  tbody tr {
+    font-size: 14px;
+  }
+}
+
+.container-table100 {
+  width: 100%;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.table-scroll {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #36304a;
+}
+
+.table th,
+.table td {
+  padding: 10px 20px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.filter {
+  background-color: #fff;
+  border-radius: 10px;
+  width: 400px;
+  padding: 8px;
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
+  justify-content: flex-start;
+
+  h2{
+    text-align: center;
+    color: #b6a9a9;
+  }
+
+  .form_input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: row;
+    gap: 10px;
+
+    label{
+        min-width: 85px;
+        text-transform: uppercase;
+    }
+  }
+
+  .btn_filter{
+    border-radius: 4px;
+    padding: 8px 16px;
+    background-color: #0ce681;
+  }
+
+}
+
+.input {
+  border: 2px solid transparent;
+  width: 15em;
+  height: 2.5em;
+  padding-left: 0.8em;
+  outline: none;
+  overflow: hidden;
+  background-color: #f3f3f3;
+  border-radius: 10px;
+  transition: all 0.5s;
+}
+
+.input:hover,
+.input:focus {
+  border: 2px solid #4a9dec;
+  box-shadow: 0px 0px 0px 7px rgb(74, 157, 236, 20%);
+  background-color: white;
+}
+
+@media (max-width: 576px) {
+  .container-table100 {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+.skeleton-row {
+    background-color: #f0f0f0;
+  
+    .skeleton-cell {
+      height: 20px;
+      background: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%);
+      background-size: 200% 100%;
+      animation: skeleton-loading 1.5s infinite;
+    }
+  }
+  
+  @keyframes skeleton-loading {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+  

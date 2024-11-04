@@ -1,148 +1,78 @@
 import React, { useEffect, useState } from "react";
-import classNames from "classnames/bind";
-import styles from "./weather.module.scss";
-
 import { getDatabase, child, get, set, ref, update } from "firebase/database";
 import { dbRef } from "../../firebase/config";
+import classNames from "classnames/bind";
+import styles from "./weather.module.scss";
 import Button from "../Button/ButtonLed";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import Histories from "../Histories/Histories";
+import { useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
-const ParammeterValue = () => {
-  const [dataRealtime, setDataRealtime] = useState([]);
-  const [warningDisplayed, setWarningDisplayed] = useState(false);
-  const [isCheckedFan, setIsCheckedFan] = useState(false);
-  const [isCheckedLed1, setIsCheckedLed1] = useState(false);
-  const [isCheckedLed2, setIsCheckedLed2] = useState(false);
-  const [isCheckedLed3, setIsCheckedLed3] = useState(false);
+const ParammeterValue = ({ dataMysql }) => {
+  const navigate = useNavigate();
+  console.log(dataMysql && dataMysql);
 
-  const notify = () => {
-    if (dataRealtime.gasConcentration > 2000) {
-      toast.warn("Khí gas quá cao!!!", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      setWarningDisplayed(true);
-    } else {
-      if (warningDisplayed) {
-        toast.dismiss();
-        setWarningDisplayed(false);
-      }
-    }
+  const dataDisplay = () => {
+    if (dataMysql.length === 0) return { temperature: 0, humidity: 0, pressure: 0 };
+    const lastData = dataMysql[dataMysql.length - 1];
+    return {
+      temperature: lastData.temperature,
+      humidity: lastData.humidity,
+      pressure: Math.round(lastData.pressure / 1000),
+    };
   };
 
-  const getValueRealtime = () => {
-    get(child(dbRef, "/data"))
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          console.log(snapshot.val());
-          setDataRealtime(snapshot.val());
-        } else {
-          console.log("No data available");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+  console.log(dataDisplay());
 
-  const updatedDataFan = (value) => {
-    const db = getDatabase();
-    update(ref(db, "data/"), {
-      fan: value,
-    });
-  };
-
-  const updatedDataLed1 = (value) => {
-    const db = getDatabase();
-    update(ref(db, "data/"), {
-      led1State: value,
-    });
-  };
-
-  const updatedDataLed2 = (value) => {
-    const db = getDatabase();
-    update(ref(db, "data/"), {
-      led2State: value,
-    });
-  };
-
-  const updatedDataLed3 = (value) => {
-    const db = getDatabase();
-    update(ref(db, "data/"), {
-      led3State: value,
-    });
+  const handleClick = () => {
+    navigate("/Histories", { state: { data: dataMysql } });
   };
 
   useEffect(() => {
-    getValueRealtime();
-    notify();
-  }, [dataRealtime]);
+    dataDisplay();
+    const intervalId = setInterval(dataDisplay, 5000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
   return (
     <div className={cx("main_info")}>
-      <div>
-        <div className={cx("card")}>
-          <h2>Nhiệt độ</h2>
-          <p id="humidity">
-            {dataRealtime && Math.round(dataRealtime.temperature)}
-            °C
-          </p>
-        </div>
+      <div className={cx("card")}>
+        <h2>Nhiệt độ</h2>
+        <p id="humidity">
+          {dataDisplay().temperature}
+          °C
+        </p>
       </div>
+
       <div className={cx("card")}>
         <h2>Độ ẩm</h2>
-        <p id="temperature">
-          {dataRealtime && Math.round(dataRealtime.humidity)}%
-        </p>
+        <p id="temperature"> {dataDisplay().humidity}%</p>
       </div>
       <div className={cx("card")}>
-        <h2>Khí gas</h2>
-        <p id="temperature">
-          {dataRealtime && Math.round(dataRealtime.gasConcentration)}
-        </p>
+        <h2>Áp suất</h2>
+        <p id="temperature"> {dataDisplay().pressure} PA</p>
       </div>
       <div className={cx("button")}>
-        <Button
-          content={"FAN"}
-          handleCheckboxChange={(e) => {
-            setIsCheckedFan(e.target.checked);
-          }}
-          isChecked={isCheckedFan}
-          onClick={updatedDataFan(isCheckedFan ? 1 : 0)}
-        />
-        <Button
-          content={"LED1"}
-          handleCheckboxChange={(e) => {
-            setIsCheckedLed1(e.target.checked);
-          }}
-          isChecked={isCheckedLed1}
-          onClick={updatedDataLed1(isCheckedLed1 ? 1 : 0)}
-        />
-        <Button
-          content={"LED2"}
-          handleCheckboxChange={(e) => {
-            setIsCheckedLed2(e.target.checked);
-          }}
-          isChecked={isCheckedLed2}
-          onClick={updatedDataLed2(isCheckedLed2 ? 1 : 0)}
-        />
-        <Button
-          content={"LED3"}
-          handleCheckboxChange={(e) => {
-            setIsCheckedLed3(e.target.checked);
-          }}
-          isChecked={isCheckedLed3}
-          onClick={updatedDataLed3(isCheckedLed3 ? 1 : 0)}
-        />
+        <button className={cx("button_histories")} onClick={handleClick}>
+          <div className={cx("bgContainer")}>
+            <span>Watch histories</span>
+          </div>
+          <div className={cx("arrowContainer")}>
+            <svg width="25" height="25" viewBox="0 0 45 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M43.7678 20.7678C44.7441 19.7915 44.7441 18.2085 43.7678 17.2322L27.8579 1.32233C26.8816 0.34602 25.2986 0.34602 24.3223 1.32233C23.346 2.29864 23.346 3.88155 24.3223 4.85786L38.4645 19L24.3223 33.1421C23.346 34.1184 23.346 35.7014 24.3223 36.6777C25.2986 37.654 26.8816 37.654 27.8579 36.6777L43.7678 20.7678ZM0 21.5L42 21.5V16.5L0 16.5L0 21.5Z"
+                fill="black"
+              ></path>
+            </svg>
+          </div>
+        </button>
       </div>
       <ToastContainer />
     </div>
